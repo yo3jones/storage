@@ -10,7 +10,13 @@ type Handle interface {
 	io.WriterAt
 }
 
-type ConsistentWidthHandler interface{}
+type ConsistentWidthHandler interface {
+	GetLineWidth() int
+	Read(buffer []byte) (int, int, error)
+	Insert(data []byte) (lineNumber int, err error)
+	Update(lineIndex int, data []byte) error
+	Remove(lineIndex int) error
+}
 
 type ConsistentWidthHandlerOption interface {
 	apply(*consistentWidthHandler)
@@ -123,5 +129,17 @@ func (cwh *consistentWidthHandler) findLineCount() (err error) {
 	cwh.initialLineCount = size / int64(cwh.lineWidth)
 	cwh.lineCount = cwh.initialLineCount
 
+	return nil
+}
+
+func (cwh *consistentWidthHandler) expand(needed int) error {
+	return nil
+}
+
+func (cwh *consistentWidthHandler) Read(buffer []byte) (int, error) {
+	return 0, nil
+}
+
+func (cwh *consistentWidthHandler) Update(lineIndex int, data []byte) error {
 	return nil
 }
